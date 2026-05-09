@@ -17,6 +17,11 @@ RUN mkdir -p storage/logs storage/framework/cache storage/framework/sessions sto
 RUN chown -R www-data:www-data storage bootstrap/cache
 RUN chmod -R 775 storage bootstrap/cache
 
+# Create .env from environment variables
+RUN cp .env.example .env
+
+RUN php artisan key:generate --force
+
 COPY docker/apache.conf /etc/apache2/sites-available/000-default.conf
 RUN a2enmod rewrite
 
