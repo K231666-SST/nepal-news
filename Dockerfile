@@ -12,17 +12,23 @@ COPY . .
 
 RUN composer install --no-dev --optimize-autoloader --ignore-platform-reqs
 
+RUN cp .env.example .env && php artisan key:generate --force
+
 RUN mkdir -p storage/logs storage/framework/cache storage/framework/sessions storage/framework/views bootstrap/cache
 
-RUN chown -R www-data:www-data storage bootstrap/cache
-RUN chmod -R 775 storage bootstrap/cache
+RUN touch database/database.sqlite
 
-# Create .env from environment variables
-RUN cp .env.example .env
+RUN php artisan migrate --force
 
-RUN php artisan key:generate --force
+RUN chown -R www-data:www-data storage bootstrap/cache database
+RUN chmod -R 775 storage bootstrap/cache database
 
 COPY docker/apache.conf /etc/apache2/sites-available/000-default.conf
 RUN a2enmod rewrite
 
+COPY docker/start.sh /start.sh
+RUN chmod +x /start.sh
+
 EXPOSE 80
+
+CMD ["/start.sh"]
