@@ -1,4 +1,15 @@
 <?php
+/**
+ * Nepal News Australia
+ * CPRO306 Capstone Project — Team 9
+ * Kent Institute Australia — Skillup Labs WIL Program
+ *
+ * @author  Shushil Shah Teli (K231666) — Tech Lead & Backend Developer
+ * @author  Subash Khatri (K250035)    — QA Engineer & DevOps
+ * @author  Sujan Shrestha (K250040)   — Product Manager & Frontend
+ * @version 1.0.0
+ */
+
 namespace App\Http\Controllers;
 use App\Models\Event;
 use Illuminate\Http\Request;
