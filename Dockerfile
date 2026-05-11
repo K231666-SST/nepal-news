@@ -19,8 +19,6 @@ RUN mkdir -p storage/logs storage/framework/cache \
 
 RUN touch database/database.sqlite
 
-RUN php artisan migrate --force
-
 RUN chown -R www-data:www-data /var/www/html
 RUN chmod -R 775 storage bootstrap/cache database
 
