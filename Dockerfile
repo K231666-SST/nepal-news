@@ -12,17 +12,14 @@ COPY . .
 
 RUN composer install --no-dev --optimize-autoloader --ignore-platform-reqs
 
-RUN cp .env.example .env
-
-RUN php artisan key:generate --force
+RUN cp .env.example .env && php artisan key:generate --force
 
 RUN mkdir -p storage/logs storage/framework/cache \
-    storage/framework/sessions storage/framework/views \
-    bootstrap/cache
+    storage/framework/sessions storage/framework/views bootstrap/cache
 
 RUN touch database/database.sqlite
 
-RUN php artisan migrate --force --seed
+RUN php artisan migrate --force
 
 RUN chown -R www-data:www-data /var/www/html
 RUN chmod -R 775 storage bootstrap/cache database
