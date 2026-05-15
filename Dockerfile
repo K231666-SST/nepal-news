@@ -10,7 +10,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html
 
-COPY . .
+COPY composer.json composer.lock ./
 
 RUN composer install \
     --no-dev \
@@ -18,7 +18,10 @@ RUN composer install \
     --no-interaction \
     --no-scripts \
     --prefer-dist \
+    --ignore-platform-reqs \
     --memory-limit=-1
+
+COPY . .
 
 RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html/storage \
