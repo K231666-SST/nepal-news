@@ -20,50 +20,6 @@
 </div>
 @endif
 
-{{-- HERO --}}
-@if(isset($featured) && $featured->count())
-<section class="hero-section">
-    <div class="container">
-        <div class="hero-grid">
-            @php $main=$featured->first(); @endphp
-            <div class="hero-main">
-                @if($main->featured_image)
-                    <img src="{{ $main->featured_image }}" alt="{{ $main->title }}" class="hero-img">
-                @else
-                    <div class="hero-placeholder hero-placeholder-main"><span>NNA</span></div>
-                @endif
-                <div class="hero-overlay">
-                    <span class="hero-cat">{{ ucfirst($main->category) }}</span>
-                    @if($main->is_breaking)<span class="hero-breaking">Breaking</span>@endif
-                    <h2><a href="{{ route('article.show',$main->slug) }}">{{ $main->title }}</a></h2>
-                    <p>{{ Str::limit($main->summary,120) }}</p>
-                    <div class="hero-meta">
-                        <span>{{ $main->author->name ?? 'Editor' }}</span>
-                        <span>·</span>
-                        <span>{{ $main->published_at?->diffForHumans() }}</span>
-                    </div>
-                </div>
-            </div>
-            <div class="hero-subs">
-                @foreach($featured->slice(1,2) as $sub)
-                <div class="hero-sub">
-                    @if($sub->featured_image)
-                        <img src="{{ $sub->featured_image }}" alt="{{ $sub->title }}" class="hero-img">
-                    @else
-                        <div class="hero-placeholder hero-placeholder-sub"></div>
-                    @endif
-                    <div class="hero-overlay">
-                        <span class="hero-cat">{{ ucfirst($sub->category) }}</span>
-                        <h3><a href="{{ route('article.show',$sub->slug) }}">{{ $sub->title }}</a></h3>
-                        <div class="hero-meta"><span>{{ $sub->published_at?->diffForHumans() }}</span></div>
-                    </div>
-                </div>
-                @endforeach
-            </div>
-        </div>
-    </div>
-</section>
-@endif
 
 <div class="container main-container">
     <div class="main-layout">

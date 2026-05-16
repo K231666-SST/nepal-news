@@ -20,4 +20,13 @@ return [
         // Get key at: platform.openai.com/api-keys
     ],
     // Note: ExchangeRate-API and Horoscope API are free with no key needed
+
+    'openai' => [
+        'key' => env('OPENAI_API_KEY'),
+    ],
+
+    'groq' => [
+        'key' => env('GROQ_API_KEY'),
+    ],
 ];
+

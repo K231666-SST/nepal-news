@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title','Nepal News Australia')</title>
+    <link rel="icon" type="image/png" href="{{ asset('assets/img/logo.png') }}">
     <meta name="description" content="@yield('description','Nepal News Australia — Latest news for the Nepalese-Australian community.')">
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
@@ -269,5 +270,6 @@ function submitFooterNewsletter(e) {
 }
 </script>
 @stack('scripts')
+    @include('components.guru-chat')
 </body>
 </html>

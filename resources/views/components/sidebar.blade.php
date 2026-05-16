@@ -2,7 +2,6 @@
 
 {{-- AD SLOT --}}
 <div style="border:2px dashed #e0dbd5;background:#fafafa;border-radius:4px;padding:20px;text-align:center;color:#bbb;font-size:11px;text-transform:uppercase;letter-spacing:1px;margin-bottom:20px">
-    Advertisement<br>300×250
     @include('components.ad-slot', ['position' => 'sidebar_top'])
 </div>
 

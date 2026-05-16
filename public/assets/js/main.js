@@ -191,3 +191,14 @@ function setEl(id, html) {
     const el = document.getElementById(id);
     if (el) el.innerHTML = html;
 }
+const hamburger = document.querySelector('.hamburger');
+const mobileMenu = document.querySelector('.mobile-menu');
+const closeBtn = document.querySelector('.close-btn');
+
+hamburger.addEventListener('click', () => {
+    mobileMenu.classList.add('active');
+});
+
+closeBtn.addEventListener('click', () => {
+    mobileMenu.classList.remove('active');
+});

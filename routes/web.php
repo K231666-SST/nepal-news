@@ -34,6 +34,22 @@ Route::middleware(['auth'])->group(function () {
     })->name('users.role');
 });
 
+
+// Newsletter subscription
+Route::post('/newsletter/subscribe', function(\Illuminate\Http\Request $request) {
+    $request->validate(['email' => 'required|email']);
+    try {
+        \DB::table('subscribers')->insertOrIgnore([
+            'email'      => $request->email,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+        return response()->json(['success' => true, 'message' => 'Subscribed!']);
+    } catch (\Exception $e) {
+        return response()->json(['success' => false]);
+    }
+})->name('newsletter.subscribe');
+
 // Live API
 Route::prefix('api')->group(function () {
     Route::get('/weather',     [ApiController::class, 'weather']);
@@ -54,3 +70,5 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/admin/ads/{ad}',      [App\Http\Controllers\AdvertisementController::class, 'destroy'])->name('ads.destroy');
 });
 Route::post('/ads/{ad}/click', [App\Http\Controllers\AdvertisementController::class, 'click'])->name('ads.click');
+Route::post('/guru/chat', [App\Http\Controllers\GuruController::class, 'chat'])->name('guru.chat');
+Route::post('/guru/chat', [App\Http\Controllers\GuruController::class, 'chat'])->name('guru.chat');
