@@ -2,30 +2,30 @@
 set -e
 
 echo "🚀 Starting Nepal News Australia..."
-
 cd /var/www/html
 
-# Write .env from environment variables
-cat > .env << ENVFILE
+echo "DB_HOST is: $DB_HOST"
+
+cat > .env << ENVEOF
 APP_NAME="Nepal News Australia"
-APP_ENV=${APP_ENV:-production}
-APP_KEY=${APP_KEY}
-APP_DEBUG=${APP_DEBUG:-false}
+APP_ENV=production
+APP_KEY=$APP_KEY
+APP_DEBUG=false
 APP_URL=${APP_URL:-https://nepal-news-australia.onrender.com}
 LOG_CHANNEL=stderr
 LOG_LEVEL=error
 DB_CONNECTION=mysql
-DB_HOST=${DB_HOST}
-DB_PORT=${DB_PORT}
-DB_DATABASE=${DB_DATABASE}
-DB_USERNAME=${DB_USERNAME}
-DB_PASSWORD=${DB_PASSWORD}
+DB_HOST=$DB_HOST
+DB_PORT=$DB_PORT
+DB_DATABASE=$DB_DATABASE
+DB_USERNAME=$DB_USERNAME
+DB_PASSWORD=$DB_PASSWORD
 CACHE_STORE=file
 SESSION_DRIVER=file
 QUEUE_CONNECTION=sync
-ENVFILE
+ENVEOF
 
-echo "✅ .env written with DB_HOST=${DB_HOST}"
+echo "✅ .env written - DB_HOST=$DB_HOST"
 
 php artisan config:clear
 php artisan route:clear
