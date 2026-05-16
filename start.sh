@@ -4,31 +4,31 @@ set -e
 echo "🚀 Nepal News Australia starting..."
 cd /var/www/html
 
-cat > .env << ENVEOF
-APP_NAME="Nepal News Australia"
-APP_ENV=production
-APP_KEY=$APP_KEY
-APP_DEBUG=false
-APP_URL=https://nepal-news.onrender.com
-LOG_CHANNEL=stderr
-LOG_LEVEL=error
-DB_CONNECTION=mysql
-DB_HOST=$DB_HOST
-DB_PORT=$DB_PORT
-DB_DATABASE=$DB_DATABASE
-DB_USERNAME=$DB_USERNAME
-DB_PASSWORD=$DB_PASSWORD
-CACHE_STORE=file
-SESSION_DRIVER=file
-QUEUE_CONNECTION=sync
-GROQ_API_KEY=$GROQ_API_KEY
-OPENWEATHER_API_KEY=$OPENWEATHER_API_KEY
-METAL_PRICE_API_KEY=$METAL_PRICE_API_KEY
-EXCHANGE_RATE_API_KEY=$EXCHANGE_RATE_API_KEY
-ENVEOF
+# Debug — show what env vars Render injected
+echo "ENV CHECK: DB_HOST=${DB_HOST}"
+echo "ENV CHECK: APP_KEY=${APP_KEY}"
 
-echo "✅ DB_HOST=$DB_HOST"
-echo "✅ DB_PORT=$DB_PORT"
+# Write .env — use printf to avoid heredoc expansion issues
+printf "APP_NAME=\"Nepal News Australia\"\n" > .env
+printf "APP_ENV=production\n" >> .env
+printf "APP_KEY=%s\n" "${APP_KEY}" >> .env
+printf "APP_DEBUG=false\n" >> .env
+printf "APP_URL=https://nepal-news.onrender.com\n" >> .env
+printf "LOG_CHANNEL=stderr\n" >> .env
+printf "LOG_LEVEL=error\n" >> .env
+printf "DB_CONNECTION=mysql\n" >> .env
+printf "DB_HOST=%s\n" "${DB_HOST}" >> .env
+printf "DB_PORT=%s\n" "${DB_PORT}" >> .env
+printf "DB_DATABASE=%s\n" "${DB_DATABASE}" >> .env
+printf "DB_USERNAME=%s\n" "${DB_USERNAME}" >> .env
+printf "DB_PASSWORD=%s\n" "${DB_PASSWORD}" >> .env
+printf "CACHE_STORE=file\n" >> .env
+printf "SESSION_DRIVER=file\n" >> .env
+printf "QUEUE_CONNECTION=sync\n" >> .env
+printf "GROQ_API_KEY=%s\n" "${GROQ_API_KEY}" >> .env
+
+echo "✅ .env written"
+cat .env | grep DB_HOST
 
 php artisan config:clear 2>/dev/null || true
 php artisan route:clear  2>/dev/null || true
