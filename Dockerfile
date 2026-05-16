@@ -9,18 +9,12 @@ RUN apt-get update && apt-get install -y \
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html
-
 COPY . .
 
 RUN php -d memory_limit=-1 /usr/bin/composer install \
-    --no-dev \
-    --optimize-autoloader \
-    --no-interaction \
-    --no-scripts \
-    --prefer-dist \
-    --ignore-platform-reqs
-
-RUN cp .env.production .env
+    --no-dev --optimize-autoloader \
+    --no-interaction --no-scripts \
+    --prefer-dist --ignore-platform-reqs
 
 RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html/storage \
@@ -30,5 +24,4 @@ RUN a2enmod rewrite
 COPY docker/apache.conf /etc/apache2/sites-available/000-default.conf
 
 EXPOSE 80
-
 CMD ["bash", "/var/www/html/start.sh"]
