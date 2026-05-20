@@ -52,4 +52,6 @@ php artisan route:cache
 php artisan storage:link --force 2>/dev/null || true
 
 echo "✅ Ready!"
+echo "=== LARAVEL LOG ==="
+tail -50 storage/logs/laravel.log 2>/dev/null || echo 'No log file yet'
 apache2-foreground
