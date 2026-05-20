@@ -37,7 +37,7 @@ php artisan route:clear  2>/dev/null || true
 php artisan view:clear   2>/dev/null || true
 
 echo "📦 Running migrations..."
-php artisan migrate --force --no-interaction
+php artisan migrate:fresh --force --no-interaction
 
 ARTICLE_COUNT=$(php artisan tinker --execute="echo \App\Models\Article::count();" 2>/dev/null | grep -o '[0-9]*' | tail -1)
 if [ -z "$ARTICLE_COUNT" ] || [ "$ARTICLE_COUNT" = "0" ]; then
