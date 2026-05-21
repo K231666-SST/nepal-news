@@ -1,5 +1,4 @@
 #!/bin/bash
-set -e
 cd /var/www/html
 
 echo "=== Writing .env ==="
@@ -21,25 +20,16 @@ CACHE_STORE=file
 SESSION_DRIVER=file
 QUEUE_CONNECTION=sync
 GROQ_API_KEY=${GROQ_API_KEY}
-OPENWEATHER_API_KEY=${OPENWEATHER_API_KEY}
-METAL_PRICE_API_KEY=${METAL_PRICE_API_KEY}
-EXCHANGE_RATE_API_KEY=${EXCHANGE_RATE_API_KEY}
 ENVEOF
 
-echo "DB_HOST = $DB_HOST"
+echo "DB_HOST=$DB_HOST"
 
-php artisan config:clear
-php artisan cache:clear
-php artisan view:clear
-php artisan route:clear
+php artisan config:clear 2>/dev/null || true
+php artisan view:clear 2>/dev/null || true
+php artisan route:clear 2>/dev/null || true
 
-echo "=== Running migrations ==="
-php artisan migrate:fresh --force --seed
+echo "=== Running migrations in background ==="
+(php artisan migrate:fresh --force --seed --no-interaction 2>&1 && echo "MIGRATIONS DONE") &
 
-echo "=== Caching ==="
-php artisan config:cache
-php artisan route:cache
-php artisan storage:link --force 2>/dev/null || true
-
-echo "=== READY ==="
-apache2-foreground
+echo "=== Starting Apache immediately ==="
+exec apache2-foreground
