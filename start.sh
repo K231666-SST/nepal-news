@@ -7,7 +7,7 @@ cat > .env << ENVEOF
 APP_NAME="Nepal News Australia"
 APP_ENV=production
 APP_KEY=${APP_KEY}
-APP_DEBUG=false
+APP_DEBUG=true
 APP_URL=https://nepal-news.onrender.com
 LOG_CHANNEL=stderr
 DB_CONNECTION=mysql
