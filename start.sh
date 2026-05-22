@@ -2,34 +2,38 @@
 cd /var/www/html
 
 echo "=== Writing .env ==="
-cat > .env << ENVEOF
-APP_NAME="Nepal News Australia"
-APP_ENV=production
-APP_KEY=${APP_KEY}
-APP_DEBUG=true
-APP_URL=https://nepal-news.onrender.com
-LOG_CHANNEL=stderr
-DB_CONNECTION=mysql
-DB_HOST=${DB_HOST}
-DB_PORT=${DB_PORT}
-DB_DATABASE=${DB_DATABASE}
-DB_USERNAME=${DB_USERNAME}
-DB_PASSWORD=${DB_PASSWORD}
-DB_SSL_CA=/etc/ssl/certs/ca-certificates.crt
-CACHE_STORE=file
-SESSION_DRIVER=file
-QUEUE_CONNECTION=sync
-GROQ_API_KEY=${GROQ_API_KEY}
-ENVEOF
+printf "APP_NAME=\"Nepal News Australia\"\n" > .env
+printf "APP_ENV=production\n" >> .env
+printf "APP_KEY=%s\n" "${APP_KEY}" >> .env
+printf "APP_DEBUG=true\n" >> .env
+printf "APP_URL=https://nepal-news.onrender.com\n" >> .env
+printf "LOG_CHANNEL=stderr\n" >> .env
+printf "DB_CONNECTION=mysql\n" >> .env
+printf "DB_HOST=%s\n" "${DB_HOST}" >> .env
+printf "DB_PORT=%s\n" "${DB_PORT}" >> .env
+printf "DB_DATABASE=%s\n" "${DB_DATABASE}" >> .env
+printf "DB_USERNAME=%s\n" "${DB_USERNAME}" >> .env
+printf "DB_PASSWORD=%s\n" "${DB_PASSWORD}" >> .env
+printf "DB_SSL_CA=/etc/ssl/certs/ca-certificates.crt\n" >> .env
+printf "CACHE_STORE=file\n" >> .env
+printf "SESSION_DRIVER=file\n" >> .env
+printf "QUEUE_CONNECTION=sync\n" >> .env
+printf "GROQ_API_KEY=%s\n" "${GROQ_API_KEY}" >> .env
 
-echo "DB_HOST=$DB_HOST"
+echo "DB=$DB_HOST"
 
-php artisan config:clear 2>/dev/null || true
-php artisan view:clear 2>/dev/null || true
-php artisan route:clear 2>/dev/null || true
+php artisan config:clear
+php artisan view:clear
+php artisan route:clear
 
-echo "=== Running migrations in background ==="
-(php artisan migrate:fresh --force --seed --no-interaction 2>&1 && echo "MIGRATIONS DONE") &
+echo "=== Migrate ==="
+php artisan migrate --force --no-interaction
 
-echo "=== Starting Apache immediately ==="
+echo "=== Seed if empty ==="
+php artisan db:seed --force --no-interaction 2>/dev/null || true
+
+php artisan config:cache
+php artisan storage:link --force 2>/dev/null || true
+
+echo "=== START ==="
 exec apache2-foreground
