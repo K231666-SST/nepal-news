@@ -15,3 +15,4 @@ yarn-error.log
 *.log
 /database/database.sqlite
 .DS_Store
+database/database.sqlite

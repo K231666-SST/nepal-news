@@ -5,3 +5,12 @@ services:
     dockerfilePath: ./Dockerfile
     dockerContext: .
     plan: free
+    envVars:
+      - key: APP_KEY
+        generateValue: true
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: false
+      - key: APP_URL
+        value: https://nepal-news.onrender.com
