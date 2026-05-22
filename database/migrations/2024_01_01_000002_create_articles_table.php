@@ -33,7 +33,9 @@ return new class extends Migration
             $table->index(['category', 'status', 'published_at']);
             $table->index(['is_featured', 'status']);
             $table->index(['is_breaking', 'status']);
-            $table->fullText(['title', 'summary', 'content']);
+            if (config('database.default') !== 'sqlite') {
+    $table->fullText(['title', 'content', 'summary']);
+}
         });
     }
 
