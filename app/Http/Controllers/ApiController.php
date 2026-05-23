@@ -78,4 +78,22 @@ class ApiController extends Controller
         $months = ['Baisakh','Jestha','Ashadh','Shrawan','Bhadra','Ashwin','Kartik','Mangsir','Poush','Magh','Falgun','Chaitra'];
         return response()->json(['success'=>true,'data'=>['ad_date'=>now()->format('l, d F Y'),'bs_year'=>now()->year+56,'bs_month'=>$months[now()->month-1],'bs_day'=>now()->day]]);
     }
+
+    public function health() {
+        return response()->json(['status' => 'ok', 'app' => 'Nepal News Australia']);
+    }
+
+    public function newsletter(Request $request) {
+        $request->validate(['email' => 'required|email']);
+        try {
+            \DB::table('subscribers')->insertOrIgnore([
+                'email'      => $request->email,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+            return response()->json(['success' => true, 'message' => 'Subscribed!']);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false]);
+        }
+    }
 }

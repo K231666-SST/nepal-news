@@ -78,9 +78,9 @@ echo "=== [boot] linking storage ==="
 php artisan storage:link --force || true
 
 echo "=== [boot] caching config / routes / views ==="
-php artisan config:cache
-php artisan route:cache
-php artisan view:cache
+php artisan config:cache || echo "[boot] config:cache failed (non-fatal)"
+php artisan route:cache  || echo "[boot] route:cache failed (non-fatal)"
+php artisan view:cache   || echo "[boot] view:cache failed (non-fatal)"
 
 echo "=== [boot] starting Apache on :$PORT ==="
 exec apache2-foreground

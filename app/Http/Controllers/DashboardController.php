@@ -12,6 +12,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\{Article, Event, User};
+use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
@@ -27,5 +28,11 @@ class DashboardController extends Controller
         $pendingEvents = $user->isEditor()  ? Event::where('is_approved',false)->with('creator')->latest()->get() : collect();
         $users         = $user->isAdmin()   ? User::latest()->paginate(30) : collect();
         return view('admin.dashboard', compact('stats','articles','pendingEvents','users'));
+    }
+
+    public function updateUserRole(Request $request, User $user) {
+        if (!auth()->user()->isAdmin()) abort(403);
+        $user->update(['role' => $request->validate(['role' => 'required|in:admin,editor,contributor,reader'])['role']]);
+        return back()->with('success', 'Role updated.');
     }
 }
