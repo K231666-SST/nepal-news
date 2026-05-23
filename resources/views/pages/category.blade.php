@@ -21,7 +21,7 @@
                 <input type="text" name="search" value="{{ request('search') }}" placeholder="Search articles..." class="form-input" style="flex:1">
                 <button type="submit" class="btn-primary">Search</button>
                 @if(request('search'))
-                <a href="{{ route('category',$cat??'all') }}" class="btn-secondary">✕ Clear</a>
+                <a href="{{ route('category',$cat??'all') }}" class="btn-secondary"><i class="fa-solid fa-xmark"></i> Clear</a>
                 @endif
             </form>
 

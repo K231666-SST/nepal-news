@@ -54,10 +54,10 @@
             </div>
 
             <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px">
-                <button type="button" onclick="setStatus('draft')" class="btn-secondary">💾 Save Draft</button>
-                <button type="button" onclick="setStatus('pending')" class="btn-primary">📤 Submit for Review</button>
+                <button type="button" onclick="setStatus('draft')" class="btn-secondary"><i class="fa-regular fa-floppy-disk"></i> Save Draft</button>
+                <button type="button" onclick="setStatus('pending')" class="btn-primary"><i class="fa-solid fa-paper-plane"></i> Submit for Review</button>
                 @if(auth()->user()->isEditor())
-                <button type="button" onclick="setStatus('published')" class="btn-success">✅ Publish Now</button>
+                <button type="button" onclick="setStatus('published')" class="btn-success"><i class="fa-solid fa-circle-check"></i> Publish Now</button>
                 @endif
                 <a href="{{ route('dashboard') }}" class="btn-secondary">Cancel</a>
             </div>
@@ -114,7 +114,7 @@
             @if(isset($article) && $article && auth()->user()->isAdmin())
             <form method="POST" action="{{ route('articles.destroy',$article) }}" onsubmit="return confirm('Delete?')" style="margin-top:14px">
                 @csrf @method('DELETE')
-                <button class="btn-danger btn-sm" style="width:100%;font-size:12px">🗑️ Delete Article</button>
+                <button class="btn-danger btn-sm" style="width:100%;font-size:12px"><i class="fa-solid fa-trash"></i> Delete Article</button>
             </form>
             @endif
         </div>

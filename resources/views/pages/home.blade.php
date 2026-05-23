@@ -190,11 +190,11 @@
                         <div class="event-info">
                             <h4>{{ $event->title }}</h4>
                             <p>{{ Str::limit($event->description,100) }}</p>
-                            <div class="event-loc">📍 {{ $event->venue }}, {{ $event->city }}</div>
+                            <div class="event-loc"><i class="fa-solid fa-location-dot"></i> {{ $event->venue }}, {{ $event->city }}</div>
                             <div class="event-meta">
-                                <span>👤 {{ $event->organiser }}</span>
+                                <span><i class="fa-regular fa-user"></i> {{ $event->organiser }}</span>
                                 <span>·</span>
-                                <span>{{ $event->is_free ? '🎟 Free' : 'A$'.number_format($event->ticket_price,2) }}</span>
+                                <span>{{ $event->is_free ? 'Free' : 'A$'.number_format($event->ticket_price,2) }}</span>
                             </div>
                         </div>
                     </div>

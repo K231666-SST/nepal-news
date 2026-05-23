@@ -18,13 +18,13 @@
                 <span class="status-badge status-{{ $article->status }}">{{ strtoupper($article->status) }}</span>
                 @if(auth()->user()->isEditor() && $article->status !== 'published')
                 <form method="POST" action="{{ route('articles.publish',$article) }}" style="display:inline">
-                    @csrf <button class="btn-success btn-sm">✅ Publish</button>
+                    @csrf <button class="btn-success btn-sm"><i class="fa-solid fa-circle-check"></i> Publish</button>
                 </form>
                 @endif
-                <a href="{{ route('articles.edit',$article) }}" class="btn-secondary btn-sm">✏️ Edit</a>
+                <a href="{{ route('articles.edit',$article) }}" class="btn-secondary btn-sm"><i class="fa-solid fa-pen"></i> Edit</a>
                 @if(auth()->user()->isAdmin())
                 <form method="POST" action="{{ route('articles.destroy',$article) }}" style="display:inline" onsubmit="return confirm('Delete?')">
-                    @csrf @method('DELETE') <button class="btn-danger btn-sm">🗑️ Delete</button>
+                    @csrf @method('DELETE') <button class="btn-danger btn-sm"><i class="fa-solid fa-trash"></i> Delete</button>
                 </form>
                 @endif
             </div>
@@ -50,9 +50,9 @@
                         </div>
                     </div>
                     <div class="art-info">
-                        <span>📅 {{ $article->published_at?->format('d F Y') }}</span>
-                        <span>👁 {{ number_format($article->views) }} views</span>
-                        <span>⏱ {{ $article->reading_time ?? 3 }} min read</span>
+                        <span><i class="fa-regular fa-calendar"></i> {{ $article->published_at?->format('d F Y') }}</span>
+                        <span><i class="fa-regular fa-eye"></i> {{ number_format($article->views) }} views</span>
+                        <span><i class="fa-regular fa-clock"></i> {{ $article->reading_time ?? 3 }} min read</span>
                     </div>
                 </div>
 

@@ -39,18 +39,18 @@
 
     {{-- Ad positions guide --}}
     <div style="background:white;border:1px solid rgba(0,0,0,0.08);border-radius:16px;padding:20px;margin-bottom:24px;box-shadow:0 2px 8px rgba(0,0,0,0.06)">
-        <h3 style="font-family:Georgia,serif;font-size:16px;margin-bottom:14px;color:#1d1d1f">📍 Available Ad Positions</h3>
+        <h3 style="font-family:Georgia,serif;font-size:16px;margin-bottom:14px;color:#1d1d1f"><i class="fa-solid fa-location-dot"></i> Available Ad Positions</h3>
         <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
             @foreach([
-                ['sidebar_top','Sidebar Top','Appears at top of sidebar on all pages. Best visibility.','🥇'],
-                ['sidebar_middle','Sidebar Middle','Between widgets in sidebar. Good for square ads.','🥈'],
-                ['sidebar_bottom','Sidebar Bottom','Bottom of sidebar. Good for newsletter-style ads.','🥉'],
-                ['header_banner','Header Banner','Full-width banner below the navigation bar.','📢'],
-                ['article_inline','Article Inline','Appears within article content. High engagement.','📰'],
-                ['homepage_banner','Homepage Banner','Prominent placement on homepage only.','🏠'],
+                ['sidebar_top','Sidebar Top','Appears at top of sidebar on all pages. Best visibility.','fa-star'],
+                ['sidebar_middle','Sidebar Middle','Between widgets in sidebar. Good for square ads.','fa-layer-group'],
+                ['sidebar_bottom','Sidebar Bottom','Bottom of sidebar. Good for newsletter-style ads.','fa-arrow-down'],
+                ['header_banner','Header Banner','Full-width banner below the navigation bar.','fa-bullhorn'],
+                ['article_inline','Article Inline','Appears within article content. High engagement.','fa-newspaper'],
+                ['homepage_banner','Homepage Banner','Prominent placement on homepage only.','fa-house'],
             ] as [$key,$label,$desc,$icon])
-            <div style="background:rgba(0,0,0,0.02);border:1px solid rgba(0,0,0,0.06);border-radius:10px;padding:12px">
-                <div style="font-size:18px;margin-bottom:6px">{{ $icon }}</div>
+            <div style="background:rgba(0,0,0,0.02);border:1px solid rgba(0,0,0,0.06);border-radius:4px;padding:12px">
+                <div style="font-size:16px;margin-bottom:6px;color:#C0392B"><i class="fa-solid {{ $icon }}"></i></div>
                 <div style="font-size:13px;font-weight:700;color:#1d1d1f;margin-bottom:3px">{{ $label }}</div>
                 <div style="font-size:11px;color:#6e6e73">{{ $desc }}</div>
                 <div style="margin-top:6px"><code style="font-size:10px;background:#f0f0f0;padding:2px 6px;border-radius:4px;color:#666">{{ $key }}</code></div>
@@ -67,7 +67,7 @@
         </div>
         @if($ads->isEmpty())
         <div style="padding:60px;text-align:center;color:#666">
-            <div style="font-size:40px;margin-bottom:12px">📢</div>
+            <div style="font-size:32px;margin-bottom:12px;color:#aaa"><i class="fa-solid fa-bullhorn"></i></div>
             <p style="font-size:16px;margin-bottom:8px">No advertisements yet</p>
             <a href="{{ route('ads.create') }}" class="btn-primary">Create First Ad</a>
         </div>
@@ -106,7 +106,7 @@
                             <form method="POST" action="{{ route('ads.toggle',$ad) }}" style="display:inline">
                                 @csrf
                                 <button style="background:{{ $ad->is_active ? 'rgba(39,174,96,0.1)' : 'rgba(0,0,0,0.05)' }};color:{{ $ad->is_active ? '#1e8449' : '#aaa' }};border:1px solid {{ $ad->is_active ? 'rgba(39,174,96,0.2)' : 'rgba(0,0,0,0.1)' }};font-size:11px;padding:4px 12px;border-radius:20px;cursor:pointer;font-weight:600">
-                                    {{ $ad->is_active ? '✅ Active' : '⏸ Inactive' }}
+                                    {{ $ad->is_active ? 'Active' : 'Inactive' }}
                                 </button>
                             </form>
                         </td>

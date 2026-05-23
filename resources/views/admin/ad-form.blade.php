@@ -35,12 +35,12 @@
                     <label class="form-label">Position *</label>
                     <select name="position" class="form-input">
                         @foreach([
-                            'sidebar_top'     => '🥇 Sidebar Top (Best visibility)',
-                            'sidebar_middle'  => '🥈 Sidebar Middle',
-                            'sidebar_bottom'  => '🥉 Sidebar Bottom',
-                            'header_banner'   => '📢 Header Banner (Full width)',
-                            'article_inline'  => '📰 Article Inline (High engagement)',
-                            'homepage_banner' => '🏠 Homepage Banner',
+                            'sidebar_top'     => 'Sidebar Top (Best visibility)',
+                            'sidebar_middle'  => 'Sidebar Middle',
+                            'sidebar_bottom'  => 'Sidebar Bottom',
+                            'header_banner'   => 'Header Banner (Full width)',
+                            'article_inline'  => 'Article Inline (High engagement)',
+                            'homepage_banner' => 'Homepage Banner',
                         ] as $val => $label)
                         <option value="{{ $val }}" {{ old('position',$ad?->position??'sidebar_top')===$val?'selected':'' }}>{{ $label }}</option>
                         @endforeach
@@ -49,9 +49,9 @@
                 <div class="form-group">
                     <label class="form-label">Ad Type *</label>
                     <select name="type" class="form-input" id="adTypeSelect" onchange="toggleAdType(this.value)">
-                        <option value="image" {{ old('type',$ad?->type??'image')==='image'?'selected':'' }}>🖼️ Image Ad</option>
-                        <option value="code"  {{ old('type',$ad?->type??'image')==='code'?'selected':'' }}>💻 HTML/AdSense Code</option>
-                        <option value="text"  {{ old('type',$ad?->type??'image')==='text'?'selected':'' }}>📝 Text Ad</option>
+                        <option value="image" {{ old('type',$ad?->type??'image')==='image'?'selected':'' }}>Image Ad</option>
+                        <option value="code"  {{ old('type',$ad?->type??'image')==='code'?'selected':'' }}>HTML/AdSense Code</option>
+                        <option value="text"  {{ old('type',$ad?->type??'image')==='text'?'selected':'' }}>Text Ad</option>
                     </select>
                 </div>
             </div>
@@ -64,7 +64,7 @@
                     <div style="border:2px dashed rgba(192,57,43,0.3);border-radius:12px;padding:20px;text-align:center;background:rgba(192,57,43,0.02);margin-bottom:10px;cursor:pointer" onclick="document.getElementById('imageUpload').click()" id="uploadZone">
                         <input type="file" id="imageUpload" name="image_file" accept="image/*" style="display:none" onchange="previewImage(this)">
                         <div id="uploadPlaceholder">
-                            <div style="font-size:32px;margin-bottom:8px">🖼️</div>
+                            <div style="font-size:28px;margin-bottom:8px;color:#C0392B"><i class="fa-solid fa-image"></i></div>
                             <div style="font-size:14px;font-weight:600;color:#C0392B">Click to upload image</div>
                             <div style="font-size:12px;color:#aaa;margin-top:4px">PNG, JPG, GIF up to 5MB</div>
                             <div style="font-size:11px;color:#bbb;margin-top:4px">Recommended: 300×250 (sidebar) · 728×90 (banner) · 336×280 (article)</div>
@@ -139,7 +139,7 @@
 
             <div style="display:flex;gap:10px;flex-wrap:wrap">
                 <button type="submit" class="btn-primary">
-                    {{ isset($ad) && $ad ? '💾 Save Changes' : '📢 Create Advertisement' }}
+                    {{ isset($ad) && $ad ? 'Save Changes' : 'Create Advertisement' }}
                 </button>
                 <a href="{{ route('ads.index') }}" class="btn-secondary">Cancel</a>
             </div>
@@ -148,15 +148,15 @@
 
     {{-- Ad positions visual guide --}}
     <div style="background:white;border:1px solid rgba(0,0,0,0.08);border-radius:16px;padding:24px;margin-top:20px">
-        <h4 style="font-size:15px;font-weight:700;color:#1d1d1f;margin-bottom:16px">📍 Ad Position Guide</h4>
+        <h4 style="font-size:15px;font-weight:700;color:#1d1d1f;margin-bottom:16px"><i class="fa-solid fa-location-dot"></i> Ad Position Guide</h4>
         <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px">
             @foreach([
-                ['sidebar_top','🥇 Sidebar Top','Best visibility — appears first in sidebar on every page','High'],
-                ['sidebar_middle','🥈 Sidebar Middle','Between widgets — good for square format ads','Medium'],
-                ['sidebar_bottom','🥉 Sidebar Bottom','Bottom of sidebar — good for newsletter-style ads','Low'],
-                ['header_banner','📢 Header Banner','Full-width below navigation — maximum exposure','Very High'],
-                ['article_inline','📰 Article Inline','Inside article content — highest engagement rate','Very High'],
-                ['homepage_banner','🏠 Homepage Banner','Homepage only — great for brand awareness','High'],
+                ['sidebar_top','Sidebar Top','Best visibility — appears first in sidebar on every page','High'],
+                ['sidebar_middle','Sidebar Middle','Between widgets — good for square format ads','Medium'],
+                ['sidebar_bottom','Sidebar Bottom','Bottom of sidebar — good for newsletter-style ads','Low'],
+                ['header_banner','Header Banner','Full-width below navigation — maximum exposure','Very High'],
+                ['article_inline','Article Inline','Inside article content — highest engagement rate','Very High'],
+                ['homepage_banner','Homepage Banner','Homepage only — great for brand awareness','High'],
             ] as [$key,$label,$desc,$level])
             <div style="background:rgba(0,0,0,0.02);border:1px solid rgba(0,0,0,0.06);border-radius:10px;padding:12px">
                 <div style="font-size:13px;font-weight:700;color:#1d1d1f;margin-bottom:3px">{{ $label }}</div>

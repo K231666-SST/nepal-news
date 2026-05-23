@@ -11,7 +11,7 @@
         </div>
         <div id="guru-messages" style="flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px;"></div>
         <div id="guru-quick" style="padding:0 12px 8px;display:flex;gap:6px;flex-wrap:wrap;">
-            <button class="guru-quick-btn" onclick="quickAsk('Summarise the current article for me')">📰 Summarise</button>
+            <button class="guru-quick-btn" onclick="quickAsk('Summarise the current article for me')">Summarise</button>
             <button class="guru-quick-btn" onclick="quickAsk('Translate hello to Nepali')">🌐 Translate</button>
             <button class="guru-quick-btn" onclick="quickAsk('What is happening in Nepal?')">🇳🇵 Nepal news</button>
         </div>

@@ -66,9 +66,9 @@
                 <h3>{{ $event->title }}</h3>
                 <p>{{ Str::limit($event->description,120) }}</p>
                 <div class="ev-details">
-                    <span>📍 {{ $event->venue }}</span>
-                    <span>👤 {{ $event->organiser }}</span>
-                    <span>{{ $event->is_free ? '🎟 Free' : 'A$'.number_format($event->ticket_price,2) }}</span>
+                    <span><i class="fa-solid fa-location-dot"></i> {{ $event->venue }}</span>
+                    <span><i class="fa-regular fa-user"></i> {{ $event->organiser }}</span>
+                    <span>{{ $event->is_free ? 'Free' : 'A$'.number_format($event->ticket_price,2) }}</span>
                 </div>
             </div>
         </div>

@@ -8,6 +8,7 @@
     <link rel="icon" type="image/png" href="{{ asset('assets/img/logo.png') }}">
     <meta name="description" content="@yield('description','Nepal News Australia — Latest news for the Nepalese-Australian community.')">
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     @stack('styles')
 </head>
@@ -24,9 +25,9 @@
     <div class="container">
         <div class="top-bar-inner">
             <div class="top-left">
-                <span>📅 {{ now()->format('l, d F Y') }}</span>
+                <span><i class="fa-regular fa-calendar"></i> {{ now()->format('l, d F Y') }}</span>
                 <span class="sep">|</span>
-                <span>📍 Sydney, Australia</span>
+                <span><i class="fa-solid fa-location-dot"></i> Sydney, Australia</span>
             </div>
             <div class="top-right">
                 <div class="lang-btns">
@@ -41,7 +42,7 @@
                 </div>
                 @auth
                 <span class="top-user">
-                    <a href="{{ route('dashboard') }}">👤 {{ auth()->user()->name }}</a>
+                    <a href="{{ route('dashboard') }}"><i class="fa-regular fa-user"></i> {{ auth()->user()->name }}</a>
                     <form method="POST" action="{{ route('logout') }}" style="display:inline">
                         @csrf <button type="submit" class="top-logout">Sign Out</button>
                     </form>
@@ -68,7 +69,7 @@
             <div style="display:flex;align-items:center;gap:12px">
                 <form action="{{ route('search') }}" method="GET" class="header-search">
                     <input type="text" name="search" placeholder="Search news, articles..." value="{{ request('search') }}">
-                    <button type="submit">🔍</button>
+                    <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
                 </form>
                 <button class="hamburger" id="hamburgerBtn" onclick="toggleMobileMenu()" aria-label="Toggle menu">
                     <span></span><span></span><span></span>
@@ -82,7 +83,7 @@
 <nav class="site-nav">
     <div class="container">
         <div class="nav-inner">
-            <a href="{{ route('home') }}" class="{{ request()->routeIs('home')?'active':'' }}">🏠 Home</a>
+            <a href="{{ route('home') }}" class="{{ request()->routeIs('home')?'active':'' }}"><i class="fa-solid fa-house"></i> Home</a>
             @foreach(['nepal','australia','community','business','sports','entertainment','opinion','culture'] as $navCat)
             <a href="{{ route('category',$navCat) }}" class="{{ request()->route('cat')===$navCat?'active':'' }}">{{ ucfirst($navCat) }}</a>
             @endforeach
@@ -90,7 +91,7 @@
             @auth
             <a href="{{ route('dashboard') }}">Dashboard</a>
             @if(auth()->user()->isAdmin())
-            <a href="{{ route('ads.index') }}" style="color:#f1c40f!important">📢 Ads</a>
+            <a href="{{ route('ads.index') }}" style="color:#f1c40f!important"><i class="fa-solid fa-bullhorn"></i> Ads</a>
             @endif
             @if(auth()->user()->isContributor())
             <a href="{{ route('articles.create') }}" class="nav-write">+ Write</a>
@@ -108,32 +109,32 @@
     <div class="mobile-menu-header">
         <img src="{{ asset('assets/img/logo.png') }}" alt="NNA" style="height:38px;width:38px;border-radius:50%;object-fit:cover">
         <span style="font-family:Georgia,serif;font-size:15px;font-weight:700;color:#1d1d1f;flex:1;margin-left:10px">Nepal News Australia</span>
-        <button onclick="toggleMobileMenu()" style="background:rgba(0,0,0,0.06);border:none;border-radius:50%;width:32px;height:32px;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;flex-shrink:0">✕</button>
+        <button onclick="toggleMobileMenu()" style="background:rgba(0,0,0,0.06);border:none;border-radius:4px;width:32px;height:32px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="fa-solid fa-xmark"></i></button>
     </div>
 
     <div class="mobile-menu-section">
-        <div class="mobile-menu-label">📰 News Sections</div>
-        <a href="{{ route('home') }}" class="mobile-menu-item {{ request()->routeIs('home')?'active':'' }}">🏠 Home</a>
-        @foreach(['nepal'=>'🇳🇵','australia'=>'🇦🇺','community'=>'👥','business'=>'💼','sports'=>'🏏','entertainment'=>'🎬','opinion'=>'💬','culture'=>'🎭'] as $mc => $icon)
-        <a href="{{ route('category',$mc) }}" class="mobile-menu-item {{ request()->route('cat')===$mc?'active':'' }}">{{ $icon }} {{ ucfirst($mc) }}</a>
+        <div class="mobile-menu-label"><i class="fa-solid fa-newspaper"></i> News Sections</div>
+        <a href="{{ route('home') }}" class="mobile-menu-item {{ request()->routeIs('home')?'active':'' }}"><i class="fa-solid fa-house"></i> Home</a>
+        @foreach(['nepal'=>'fa-mountain-sun','australia'=>'fa-globe','community'=>'fa-users','business'=>'fa-briefcase','sports'=>'fa-trophy','entertainment'=>'fa-film','opinion'=>'fa-comment','culture'=>'fa-masks-theater'] as $mc => $icon)
+        <a href="{{ route('category',$mc) }}" class="mobile-menu-item {{ request()->route('cat')===$mc?'active':'' }}"><i class="fa-solid {{ $icon }}"></i> {{ ucfirst($mc) }}</a>
         @endforeach
     </div>
 
     <div class="mobile-menu-section">
-        <div class="mobile-menu-label">🔗 Quick Links</div>
-        <a href="{{ route('events.index') }}" class="mobile-menu-item">📅 Community Events</a>
-        <a href="https://www.hamropatro.com/" target="_blank" rel="noopener" class="mobile-menu-item">🗓️ Hamro Patro</a>
+        <div class="mobile-menu-label"><i class="fa-solid fa-link"></i> Quick Links</div>
+        <a href="{{ route('events.index') }}" class="mobile-menu-item"><i class="fa-regular fa-calendar"></i> Community Events</a>
+        <a href="https://www.hamropatro.com/" target="_blank" rel="noopener" class="mobile-menu-item"><i class="fa-regular fa-calendar-days"></i> Hamro Patro</a>
         @auth
-        <a href="{{ route('dashboard') }}" class="mobile-menu-item">⚡ Dashboard</a>
+        <a href="{{ route('dashboard') }}" class="mobile-menu-item"><i class="fa-solid fa-bolt"></i> Dashboard</a>
         @if(auth()->user()->isAdmin())
-        <a href="{{ route('ads.index') }}" class="mobile-menu-item" style="color:#C0392B;font-weight:600">📢 Manage Ads</a>
+        <a href="{{ route('ads.index') }}" class="mobile-menu-item" style="color:#C0392B;font-weight:600"><i class="fa-solid fa-bullhorn"></i> Manage Ads</a>
         @endif
         @if(auth()->user()->isContributor())
-        <a href="{{ route('articles.create') }}" class="mobile-menu-item" style="color:#C0392B;font-weight:600">✏️ Write Article</a>
+        <a href="{{ route('articles.create') }}" class="mobile-menu-item" style="color:#C0392B;font-weight:600"><i class="fa-solid fa-pen"></i> Write Article</a>
         @endif
         @else
-        <a href="{{ route('login') }}" class="mobile-menu-item">🔑 Sign In</a>
-        <a href="{{ route('register') }}" class="mobile-menu-item">📝 Register</a>
+        <a href="{{ route('login') }}" class="mobile-menu-item"><i class="fa-solid fa-key"></i> Sign In</a>
+        <a href="{{ route('register') }}" class="mobile-menu-item"><i class="fa-solid fa-pen-to-square"></i> Register</a>
         @endauth
     </div>
 
@@ -168,7 +169,7 @@
                     <img src="{{ asset('assets/img/logo.png') }}" alt="NNA" style="height:50px;width:50px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,255,255,0.12)">
                     <div>
                         <div style="color:white;font-family:Georgia,serif;font-size:17px;font-weight:700">Nepal News Australia</div>
-                        <div style="color:rgba(255,255,255,0.3);font-size:10px;letter-spacing:2px;text-transform:uppercase;margin-top:2px">Est. 2024</div>
+                        <div style="color:rgba(255,255,255,0.3);font-size:10px;text-transform:uppercase;margin-top:2px">Est. 2024</div>
                     </div>
                 </div>
                 <p>Australia's leading Nepali news platform serving the diaspora across Sydney, Melbourne, Brisbane, Perth and Adelaide.</p>
@@ -183,45 +184,45 @@
             <div class="footer-col">
                 <h4>Sections</h4>
                 <ul>
-                    <li><a href="{{ route('category','nepal') }}">🇳🇵 Nepal</a></li>
-                    <li><a href="{{ route('category','australia') }}">🇦🇺 Australia</a></li>
-                    <li><a href="{{ route('category','community') }}">👥 Community</a></li>
-                    <li><a href="{{ route('category','business') }}">💼 Business</a></li>
-                    <li><a href="{{ route('category','sports') }}">🏏 Sports</a></li>
-                    <li><a href="{{ route('category','entertainment') }}">🎬 Entertainment</a></li>
-                    <li><a href="{{ route('category','opinion') }}">💬 Opinion</a></li>
-                    <li><a href="{{ route('category','culture') }}">🎭 Culture</a></li>
+                    <li><a href="{{ route('category','nepal') }}">Nepal</a></li>
+                    <li><a href="{{ route('category','australia') }}">Australia</a></li>
+                    <li><a href="{{ route('category','community') }}">Community</a></li>
+                    <li><a href="{{ route('category','business') }}">Business</a></li>
+                    <li><a href="{{ route('category','sports') }}">Sports</a></li>
+                    <li><a href="{{ route('category','entertainment') }}">Entertainment</a></li>
+                    <li><a href="{{ route('category','opinion') }}">Opinion</a></li>
+                    <li><a href="{{ route('category','culture') }}">Culture</a></li>
                 </ul>
             </div>
 
             <div class="footer-col">
                 <h4>Services</h4>
                 <ul>
-                    <li><a href="{{ route('events.index') }}">📅 Community Events</a></li>
-                    <li><a href="#newsletter">✉️ Newsletter</a></li>
-                    <li><a href="{{ route('ads.index') }}">📢 Advertise With Us</a></li>
+                    <li><a href="{{ route('events.index') }}">Community Events</a></li>
+                    <li><a href="#newsletter">Newsletter</a></li>
+                    <li><a href="{{ route('ads.index') }}">Advertise With Us</a></li>
                     <li>
                         @auth
-                        <a href="{{ route('articles.create') }}">📝 Submit Story</a>
+                        <a href="{{ route('articles.create') }}">Submit Story</a>
                         @else
-                        <a href="{{ route('register') }}">📝 Submit Story</a>
+                        <a href="{{ route('register') }}">Submit Story</a>
                         @endauth
                     </li>
-                    <li><a href="https://www.hamropatro.com/" target="_blank" rel="noopener">🗓️ Hamro Patro</a></li>
+                    <li><a href="https://www.hamropatro.com/" target="_blank" rel="noopener">Hamro Patro</a></li>
                 </ul>
             </div>
 
             <div class="footer-col">
                 <h4>Company</h4>
                 <ul>
-                    <li><a href="#">ℹ️ About Us</a></li>
-                    <li><a href="#">📞 Contact</a></li>
-                    <li><a href="#">🔒 Privacy Policy</a></li>
-                    <li><a href="#">📄 Terms of Use</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Contact</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Use</a></li>
                     @auth
                     @if(auth()->user()->isAdmin())
-                    <li><a href="{{ route('ads.index') }}" style="color:#f1c40f!important">📢 Ad Manager</a></li>
-                    <li><a href="{{ route('dashboard') }}" style="color:#f1c40f!important">⚡ Admin Panel</a></li>
+                    <li><a href="{{ route('ads.index') }}" style="color:#f1c40f!important">Ad Manager</a></li>
+                    <li><a href="{{ route('dashboard') }}" style="color:#f1c40f!important">Admin Panel</a></li>
                     @endif
                     @endauth
                 </ul>
@@ -240,16 +241,16 @@
                     onfocus="this.style.borderColor='rgba(192,57,43,0.5)'" onblur="this.style.borderColor='rgba(255,255,255,0.12)'">
                 <button type="submit" style="padding:11px 24px;background:linear-gradient(135deg,#C0392B,#96281B);border:none;border-radius:24px;color:white;font-size:13px;font-weight:600;cursor:pointer;box-shadow:0 4px 16px rgba(192,57,43,0.4);font-family:inherit;transition:all .2s" onmouseover="this.style.transform='translateY(-1px)'" onmouseout="this.style.transform=''">Subscribe Free →</button>
             </form>
-            <div id="footerNlMsg" style="display:none;color:#4ade80;font-weight:600;font-size:14px">✅ Subscribed! Welcome to the community.</div>
+            <div id="footerNlMsg" style="display:none;color:#4ade80;font-weight:600;font-size:14px"><i class="fa-solid fa-circle-check"></i> Subscribed! Welcome to the community.</div>
         </div>
 
         <div class="footer-bottom">
-            <p>© {{ date('Y') }} Nepal News Australia. All rights reserved. Built with ❤️ for the Nepali-Australian community.</p>
+            <p>© {{ date('Y') }} Nepal News Australia. All rights reserved. Built for the Nepali-Australian community.</p>
         </div>
     </div>
 </footer>
 
-<button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+<button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})"><i class="fa-solid fa-chevron-up"></i></button>
 <script src="{{ asset('assets/js/main.js') }}"></script>
 <script src="{{ asset('assets/js/lang.js') }}"></script>
 <script>
