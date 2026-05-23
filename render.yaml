@@ -1,16 +1,90 @@
+# Render Blueprint — Nepal News Australia (Laravel 13 / PHP 8.3 / SQLite)
+# Deploy: push to GitHub → New + → Blueprint → pick this repo → "Apply".
+#
+# NOTES ABOUT PERSISTENCE
+# -----------------------
+# This blueprint runs on Render's FREE tier. Free instances are EPHEMERAL —
+# every redeploy starts from a fresh filesystem, so the SQLite database is
+# rebuilt from migrations + seeders on each boot. That is fine for a demo
+# but NOT for real user data.
+#
+# For persistent data, do ONE of the following AFTER first deploy works:
+#   A) Upgrade plan to "starter" and uncomment the `disk:` block below.
+#   B) Provision a free Render Postgres database, then set on this service:
+#        DB_CONNECTION = pgsql
+#        DB_HOST       = (from the database "Internal Database URL")
+#        DB_PORT       = 5432
+#        DB_DATABASE   = (db name)
+#        DB_USERNAME   = (user)
+#        DB_PASSWORD   = (password)
+#      The Dockerfile already includes pdo_pgsql.
+
 services:
   - type: web
     name: nepal-news-australia
     runtime: docker
+    plan: free
+    region: singapore         # closest free region to AU users; change if you prefer
     dockerfilePath: ./Dockerfile
     dockerContext: .
-    plan: free
+    healthCheckPath: /up
+    autoDeploy: true
+
+    # ── Persistent disk (PAID PLANS ONLY) ─────────────────────────
+    # Uncomment after upgrading from "free" to "starter" or higher.
+    # disk:
+    #   name: sqlite-data
+    #   mountPath: /var/www/html/database
+    #   sizeGB: 1
+
     envVars:
-      - key: APP_KEY
-        generateValue: true
+      - key: APP_NAME
+        value: "Nepal News Australia"
       - key: APP_ENV
         value: production
       - key: APP_DEBUG
-        value: false
+        value: "false"
+      - key: APP_KEY
+        generateValue: true            # Render generates once and pins it
       - key: APP_URL
-        value: https://nepal-news.onrender.com
+        value: https://nepal-news-australia.onrender.com   # update after first deploy
+
+      - key: LOG_CHANNEL
+        value: stderr
+      - key: LOG_LEVEL
+        value: error
+
+      - key: DB_CONNECTION
+        value: sqlite
+      - key: DB_DATABASE
+        value: /var/www/html/database/database.sqlite
+
+      - key: CACHE_STORE
+        value: file
+      - key: SESSION_DRIVER
+        value: file
+      - key: QUEUE_CONNECTION
+        value: sync
+
+      - key: RUN_SEEDERS
+        value: "true"                  # set to "false" once you don't want re-seeding
+
+      # ── Third-party API keys (set the real values in the Render dashboard) ──
+      - key: WEATHER_API_KEY
+        sync: false
+      - key: METAL_API_KEY
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: GROQ_API_KEY
+        sync: false
+      - key: EXCHANGE_RATE_API_KEY
+        sync: false
+
+      # ── Mail (optional, leave blank to use the "log" mailer) ──
+      - key: MAIL_MAILER
+        value: log
+      - key: MAIL_FROM_ADDRESS
+        value: noreply@nepalnewsaustralia.com.au
+      - key: MAIL_FROM_NAME
+        value: "Nepal News Australia"
