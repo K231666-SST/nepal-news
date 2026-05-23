@@ -1,6 +1,7 @@
 FROM php:8.3-apache
 
 ENV DEBIAN_FRONTEND=noninteractive
+ENV COMPOSER_MEMORY_LIMIT=-1
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
         git curl ca-certificates \
