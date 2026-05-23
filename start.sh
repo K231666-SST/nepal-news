@@ -43,8 +43,8 @@ MAIL_FROM_NAME="${MAIL_FROM_NAME:-Nepal News Australia}"
 ENVEOF
 fi
 
-if [[ -z "${APP_KEY:-}" ]] && ! grep -q '^APP_KEY=base64:' .env; then
-    echo "=== [boot] generating APP_KEY ==="
+if [[ "${APP_KEY:-}" != base64:* ]]; then
+    echo "=== [boot] generating APP_KEY (env var missing or invalid) ==="
     php artisan key:generate --force --no-interaction
 fi
 

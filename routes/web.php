@@ -8,6 +8,9 @@ use App\Http\Controllers\ApiController;
 use App\Http\Controllers\AdvertisementController;
 use App\Http\Controllers\GuruController;
 
+// Health check (Render pings this every 10s)
+Route::get('/up', [ApiController::class, 'health'])->name('health');
+
 // Public routes
 Route::get('/',                    [HomeController::class, 'index'])->name('home');
 Route::get('/article/{slug}',      [ArticleController::class, 'show'])->name('article.show');
