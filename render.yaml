@@ -45,7 +45,7 @@ services:
       - key: APP_DEBUG
         value: "false"
       - key: APP_KEY
-        generateValue: true            # Render generates once and pins it
+        value: ""                      # start.sh generates a valid base64: key at runtime
       - key: APP_URL
         value: https://nepal-news-australia.onrender.com   # update after first deploy
 
