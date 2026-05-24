@@ -44,8 +44,8 @@ services:
         value: production
       - key: APP_DEBUG
         value: "false"
-      - key: APP_KEY
-        value: ""                      # start.sh generates a valid base64: key at runtime
+      # APP_KEY is intentionally omitted — start.sh generates a valid
+      # base64: key at first boot and exports it before config:cache runs.
       - key: APP_URL
         value: https://nepal-news-australia.onrender.com   # update after first deploy
 

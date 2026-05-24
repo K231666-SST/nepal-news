@@ -45,7 +45,12 @@ fi
 
 if [[ "${APP_KEY:-}" != base64:* ]]; then
     echo "=== [boot] generating APP_KEY (env var missing or invalid) ==="
+    unset APP_KEY
     php artisan key:generate --force --no-interaction
+    # Export generated key so config:cache uses it (OS env overrides .env)
+    APP_KEY=$(grep '^APP_KEY=' .env | cut -d= -f2-)
+    export APP_KEY
+    echo "=== [boot] APP_KEY exported: ${APP_KEY:0:12}... ==="
 fi
 
 if [[ "${DB_CONNECTION:-sqlite}" == "sqlite" ]]; then
