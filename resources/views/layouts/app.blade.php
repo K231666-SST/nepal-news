@@ -10,9 +10,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/animations.css') }}">
     @stack('styles')
 </head>
 <body class="{{ request()->routeIs('home') ? '' : 'inner-page' }}">
+
+{{-- Scroll progress bar --}}
+<div id="scroll-progress"></div>
+{{-- Page transition overlay --}}
+<div id="page-transition"></div>
 
 @if(!request()->routeIs('home'))
 <div class="bg-orb bg-orb-1"></div>
@@ -253,6 +259,7 @@
 <button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})"><i class="fa-solid fa-chevron-up"></i></button>
 <script src="{{ asset('assets/js/main.js') }}"></script>
 <script src="{{ asset('assets/js/lang.js') }}"></script>
+<script src="{{ asset('assets/js/animations.js') }}"></script>
 <script>
 function toggleMobileMenu() {
     const menu    = document.getElementById('mobileMenu');

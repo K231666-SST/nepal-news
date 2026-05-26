@@ -1,0 +1,583 @@
+/* ============================================================
+   Nepal News Australia — Animation & Motion Design System
+   All animations use only transform + opacity (GPU-accelerated).
+   Respects prefers-reduced-motion.
+   ============================================================ */
+
+/* ── REDUCED MOTION GUARD ──────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration:        0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration:       0.01ms !important;
+    transition-delay:          0s !important;
+  }
+}
+
+/* ── SCROLL PROGRESS BAR ───────────────────────────────── */
+#scroll-progress {
+  position: fixed; top: 0; left: 0;
+  height: 3px; width: 0%;
+  background: linear-gradient(90deg, #C0392B 0%, #D4AC0D 60%, #C0392B 100%);
+  background-size: 200% 100%;
+  animation: progressShimmer 2s linear infinite;
+  z-index: 10000;
+  transition: width 0.08s linear;
+  box-shadow: 0 0 8px rgba(192,57,43,0.5);
+  pointer-events: none;
+}
+@keyframes progressShimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ── PAGE TRANSITION OVERLAY ───────────────────────────── */
+#page-transition {
+  position: fixed; inset: 0;
+  background: #ffffff;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.22s ease;
+}
+#page-transition.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* ── PAGE ENTER ANIMATION ──────────────────────────────── */
+@keyframes pageEnter {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+body {
+  animation: pageEnter 0.45s ease-out both;
+}
+
+/* ── HEADER ENTRANCE ───────────────────────────────────── */
+@keyframes slideDown {
+  from { transform: translateY(-100%); opacity: 0; }
+  to   { transform: translateY(0);     opacity: 1; }
+}
+.top-bar {
+  animation: slideDown 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.site-header {
+  animation: slideDown 0.45s 0.05s cubic-bezier(0.22, 1, 0.36, 1) both;
+  transition: box-shadow 0.3s ease;
+}
+.site-header.scrolled {
+  box-shadow: 0 4px 24px rgba(0,0,0,0.14) !important;
+}
+.site-nav {
+  animation: slideDown 0.45s 0.1s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.breaking-bar {
+  animation: slideDown 0.45s 0.15s cubic-bezier(0.22, 1, 0.36, 1) both;
+  position: relative;
+  overflow: hidden;
+}
+/* Fade-out right edge of ticker */
+.breaking-bar::after {
+  content: '';
+  position: absolute; right: 0; top: 0; bottom: 0;
+  width: 80px;
+  background: linear-gradient(to right, transparent, #1a1a2e);
+  z-index: 2; pointer-events: none;
+}
+
+/* ── SCROLL REVEAL SYSTEM ──────────────────────────────── */
+.anim-el {
+  will-change: transform, opacity;
+  transition:
+    opacity  0.65s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+}
+/* initial states */
+.anim-up    { opacity: 0; transform: translateY(28px); }
+.anim-down  { opacity: 0; transform: translateY(-20px); }
+.anim-left  { opacity: 0; transform: translateX(-24px); }
+.anim-right { opacity: 0; transform: translateX(24px); }
+.anim-scale { opacity: 0; transform: scale(0.93); }
+.anim-fade  { opacity: 0; }
+
+/* revealed state */
+.anim-el.in-view {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+/* stagger delays */
+.anim-el[data-delay="1"] { transition-delay: 0.05s; }
+.anim-el[data-delay="2"] { transition-delay: 0.11s; }
+.anim-el[data-delay="3"] { transition-delay: 0.17s; }
+.anim-el[data-delay="4"] { transition-delay: 0.23s; }
+.anim-el[data-delay="5"] { transition-delay: 0.29s; }
+.anim-el[data-delay="6"] { transition-delay: 0.35s; }
+
+/* ── HERO ENHANCEMENTS ─────────────────────────────────── */
+@keyframes kenBurns {
+  0%   { transform: scale(1) translate(0, 0); }
+  33%  { transform: scale(1.06) translate(-1%, 0.5%); }
+  66%  { transform: scale(1.04) translate(1%, -0.5%); }
+  100% { transform: scale(1.06) translate(0, 0); }
+}
+.hero-img {
+  animation: kenBurns 14s ease-in-out infinite alternate !important;
+  transition: none !important;
+}
+.hero-main:hover .hero-img,
+.hero-sub:hover .hero-img {
+  animation-play-state: paused !important;
+}
+/* Richer hero gradient */
+.hero-overlay {
+  background: linear-gradient(
+    to top,
+    rgba(0,0,0,0.92) 0%,
+    rgba(0,0,0,0.55) 45%,
+    rgba(0,0,0,0.08) 100%
+  ) !important;
+}
+/* Hero text entrance */
+@keyframes heroText {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: none; }
+}
+.hero-main .hero-cat    { animation: heroText 0.6s 0.25s cubic-bezier(0.22,1,0.36,1) both; }
+.hero-main .hero-overlay h2 { animation: heroText 0.7s 0.35s cubic-bezier(0.22,1,0.36,1) both; }
+.hero-main .hero-overlay p  { animation: heroText 0.7s 0.45s cubic-bezier(0.22,1,0.36,1) both; }
+.hero-main .hero-meta       { animation: heroText 0.7s 0.55s cubic-bezier(0.22,1,0.36,1) both; }
+.hero-sub:nth-child(1) .hero-overlay h3 { animation: heroText 0.65s 0.5s cubic-bezier(0.22,1,0.36,1) both; }
+.hero-sub:nth-child(2) .hero-overlay h3 { animation: heroText 0.65s 0.65s cubic-bezier(0.22,1,0.36,1) both; }
+
+/* ── CARD HOVER ENHANCEMENTS ───────────────────────────── */
+.news-card {
+  transition:
+    transform  0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.3s ease,
+    border-color 0.3s ease !important;
+}
+.news-card:hover {
+  transform: translateY(-7px) !important;
+  box-shadow: 0 18px 44px rgba(0,0,0,0.14) !important;
+  border-color: rgba(192,57,43,0.22) !important;
+}
+.card-thumb {
+  overflow: hidden;
+  position: relative;
+}
+.card-thumb img {
+  transition: transform 0.65s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+}
+.news-card:hover .card-thumb img {
+  transform: scale(1.09) !important;
+}
+/* Red tint on image hover */
+.card-thumb::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: rgba(192,57,43,0);
+  transition: background 0.35s ease;
+  pointer-events: none;
+}
+.news-card:hover .card-thumb::after {
+  background: rgba(192,57,43,0.06);
+}
+
+/* List cards */
+.list-card {
+  transition:
+    transform  0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.3s ease,
+    border-color 0.3s ease !important;
+}
+.list-card:hover {
+  transform: translateX(7px) !important;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.12) !important;
+  border-color: rgba(192,57,43,0.2) !important;
+}
+
+/* Opinion cards */
+.opinion-card {
+  transition:
+    transform  0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.3s ease !important;
+}
+.opinion-card:hover {
+  transform: translateY(-6px) !important;
+  box-shadow: 0 14px 32px rgba(192,57,43,0.12) !important;
+}
+.opinion-card:hover .op-avatar {
+  transform: scale(1.18) rotate(-6deg);
+}
+.op-avatar {
+  transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1) !important;
+}
+
+/* Event cards */
+.event-card, .ev-full-card {
+  transition:
+    transform  0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.3s ease !important;
+}
+.event-card:hover, .ev-full-card:hover {
+  transform: translateY(-5px) !important;
+  box-shadow: 0 14px 36px rgba(0,0,0,0.12) !important;
+}
+/* Date box tilt on card hover */
+.event-date-box, .ev-date-big {
+  transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1) !important;
+}
+.event-card:hover .event-date-box,
+.ev-full-card:hover .ev-date-big {
+  transform: scale(1.06) rotate(-3deg) !important;
+}
+
+/* Widgets */
+.widget {
+  transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+}
+.widget:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 10px 28px rgba(0,0,0,0.1) !important;
+}
+
+/* ── NAV LINK UNDERLINE SLIDE ──────────────────────────── */
+.nav-inner a {
+  position: relative;
+}
+.nav-inner a::after {
+  content: '';
+  position: absolute; bottom: 0; left: 50%;
+  width: 0; height: 2px;
+  background: rgba(255,255,255,0.85);
+  transform: translateX(-50%);
+  transition: width 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.nav-inner a:hover::after,
+.nav-inner a.active::after { width: 70%; }
+.nav-inner a.active { border-bottom-color: transparent !important; }
+
+/* ── BUTTON RIPPLE ─────────────────────────────────────── */
+.btn-primary, .btn-secondary, .btn-success, .btn-danger,
+.widget-btn, .share-btn {
+  position: relative;
+  overflow: hidden;
+}
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.28);
+  pointer-events: none;
+  transform: scale(0);
+  animation: rippleAnim 0.55s ease-out forwards;
+}
+@keyframes rippleAnim {
+  to { transform: scale(4.5); opacity: 0; }
+}
+
+/* ── BUTTON HOVER LIFT ─────────────────────────────────── */
+.btn-primary {
+  transition: background 0.2s ease, transform 0.25s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.25s ease !important;
+}
+.btn-primary:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 20px rgba(192,57,43,0.35) !important;
+}
+.widget-btn {
+  transition: background 0.2s ease, transform 0.25s cubic-bezier(0.34,1.56,0.64,1) !important;
+}
+.widget-btn:hover { transform: translateY(-2px) !important; }
+
+/* ── TAG CHIP POP ──────────────────────────────────────── */
+.tag-chip {
+  transition:
+    transform   0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+    background  0.2s ease,
+    color       0.2s ease,
+    border-color 0.2s ease !important;
+}
+.tag-chip:hover {
+  transform: translateY(-2px) scale(1.05) !important;
+}
+
+/* ── CAT TAB POP ───────────────────────────────────────── */
+.cat-tab, .cat-pill {
+  transition:
+    background 0.22s ease,
+    color       0.22s ease,
+    transform   0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+    border-color 0.22s ease !important;
+}
+.cat-tab:hover, .cat-pill:hover { transform: translateY(-2px) !important; }
+.cat-tab.active  { transform: translateY(-1px) !important; }
+
+/* ── TRENDING LIST HOVER ───────────────────────────────── */
+.trending-list li {
+  transition: background 0.22s ease, transform 0.25s cubic-bezier(0.34,1.56,0.64,1) !important;
+}
+.trending-list li:hover { transform: translateX(5px) !important; }
+.trend-num { transition: color 0.22s ease, transform 0.25s ease; }
+.trending-list li:hover .trend-num {
+  color: var(--red) !important;
+  transform: scale(1.12);
+}
+
+/* ── LOGO HOVER ────────────────────────────────────────── */
+.site-logo img {
+  transition:
+    transform  0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.3s ease !important;
+}
+.site-logo:hover img {
+  transform: rotate(-6deg) scale(1.1) !important;
+  box-shadow: 0 6px 22px rgba(192,57,43,0.3) !important;
+}
+
+/* ── SOCIAL ICONS BOUNCE ───────────────────────────────── */
+.footer-socials a {
+  transition:
+    transform  0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+    background 0.22s ease !important;
+}
+.footer-socials a:hover {
+  transform: translateY(-5px) scale(1.15) !important;
+}
+.top-socials a {
+  transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), background 0.2s ease !important;
+}
+.top-socials a:hover { transform: translateY(-3px) scale(1.1) !important; }
+
+/* ── SCROLL TOP BUTTON ─────────────────────────────────── */
+.scroll-top {
+  transition:
+    transform  0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+    opacity    0.3s ease,
+    background 0.2s ease !important;
+  transform: translateY(16px);
+}
+.scroll-top.show { transform: translateY(0) !important; }
+.scroll-top:hover { transform: translateY(-4px) scale(1.12) !important; }
+
+/* ── IMAGE FADE-IN ON LOAD ─────────────────────────────── */
+.card-thumb img,
+.list-thumb img,
+.article-img,
+.hero-img {
+  opacity: 0;
+  transition: opacity 0.5s ease !important;
+}
+/* hero-img opacity overridden to use animation */
+.hero-img {
+  opacity: 1 !important; /* let kenBurns handle, always visible */
+}
+.img-loaded {
+  opacity: 1 !important;
+}
+
+/* ── ARTICLE IMAGE REVEAL ──────────────────────────────── */
+@keyframes imgReveal {
+  from { clip-path: inset(0 100% 0 0); opacity: 0; }
+  to   { clip-path: inset(0 0% 0 0); opacity: 1; }
+}
+.article-img.img-loaded {
+  clip-path: inset(0 0% 0 0) !important;
+  animation: imgReveal 0.9s 0.2s cubic-bezier(0.22,1,0.36,1) both !important;
+}
+
+/* ── ARTICLE CONTENT ENTRANCE ──────────────────────────── */
+@keyframes articleEnter {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: none; }
+}
+.article-wrap {
+  animation: articleEnter 0.7s 0.1s cubic-bezier(0.22,1,0.36,1) both;
+}
+.article-title {
+  animation: articleEnter 0.65s 0.2s cubic-bezier(0.22,1,0.36,1) both;
+}
+.article-summary {
+  animation: articleEnter 0.65s 0.28s cubic-bezier(0.22,1,0.36,1) both;
+}
+.article-meta-bar {
+  animation: articleEnter 0.65s 0.35s cubic-bezier(0.22,1,0.36,1) both;
+}
+
+/* ── MOBILE OVERLAY FADE ───────────────────────────────── */
+.mobile-overlay {
+  opacity: 0;
+  transition: opacity 0.28s ease !important;
+}
+.mobile-overlay.open {
+  display: block !important;
+  opacity: 1 !important;
+}
+
+/* ── ALERT SLIDE-DOWN ──────────────────────────────────── */
+.alert {
+  animation: alertIn 0.4s cubic-bezier(0.22,1,0.36,1) both;
+}
+@keyframes alertIn {
+  from { opacity: 0; transform: translateY(-24px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ── GURU CHAT SPRING ANIMATION ────────────────────────── */
+#guru-window {
+  display: flex !important;
+  transform-origin: bottom left;
+  transition:
+    transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+    opacity   0.3s ease !important;
+}
+#guru-window.guru-closed {
+  transform: scale(0.82) translateY(24px) !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+#guru-window.guru-open {
+  transform: scale(1) translateY(0) !important;
+  opacity: 1 !important;
+  pointer-events: all !important;
+}
+#guru-toggle {
+  transition:
+    transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.3s ease !important;
+}
+#guru-toggle:hover {
+  transform: scale(1.14) rotate(8deg) !important;
+}
+#guru-toggle.guru-open-state {
+  transform: scale(1.05) rotate(-8deg) !important;
+}
+
+/* ── ORB FLOAT ANIMATION ───────────────────────────────── */
+.bg-orb {
+  animation: orbFloat 9s ease-in-out infinite !important;
+  will-change: transform;
+}
+.bg-orb-1 { animation-delay: 0s !important; }
+.bg-orb-2 { animation-delay: -3s !important; }
+.bg-orb-3 { animation-delay: -6s !important; }
+@keyframes orbFloat {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%       { transform: translate(22px, -18px) scale(1.06); }
+  66%       { transform: translate(-12px, 12px) scale(0.97); }
+}
+
+/* ── WEATHER CITY HOVER ────────────────────────────────── */
+.weather-city {
+  transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s ease !important;
+}
+.weather-city:hover {
+  transform: translateY(-4px) !important;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1) !important;
+}
+
+/* ── STAT BOX HOVER ────────────────────────────────────── */
+.stat-box {
+  transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s ease !important;
+}
+.stat-box:hover {
+  transform: translateY(-4px) !important;
+  box-shadow: 0 10px 28px rgba(0,0,0,0.12) !important;
+}
+.stat-box:hover .stat-val {
+  color: var(--red);
+}
+.stat-val {
+  display: inline-block;
+  transition: color 0.25s ease, transform 0.25s ease;
+}
+
+/* ── FOOTER LINK HOVER ─────────────────────────────────── */
+.footer-col ul li a {
+  transition: color 0.2s ease, padding-left 0.22s ease !important;
+}
+
+/* ── SEARCH BAR EXPAND ─────────────────────────────────── */
+.header-search {
+  transition: box-shadow 0.3s ease, transform 0.25s ease !important;
+}
+.header-search:focus-within {
+  transform: scaleY(1.04) !important;
+}
+
+/* ── BREADCRUMB ANIMATION ──────────────────────────────── */
+@keyframes breadcrumbIn {
+  from { opacity: 0; transform: translateX(-16px); }
+  to   { opacity: 1; transform: none; }
+}
+.breadcrumb { animation: breadcrumbIn 0.5s 0.1s cubic-bezier(0.22,1,0.36,1) both; }
+
+/* ── AUTH PAGE ENTRANCE ────────────────────────────────── */
+@keyframes authCardIn {
+  from { opacity: 0; transform: translateY(32px) scale(0.97); }
+  to   { opacity: 1; transform: none; }
+}
+.auth-page > * { animation: authCardIn 0.6s cubic-bezier(0.22,1,0.36,1) both; }
+
+/* ── SMOOTH CAT FILTER TRANSITION ─────────────────────── */
+#latestGrid .news-card {
+  transition:
+    opacity 0.28s ease,
+    transform 0.28s ease,
+    box-shadow 0.35s cubic-bezier(0.34,1.56,0.64,1),
+    border-color 0.3s ease !important;
+}
+#latestGrid .news-card.cat-hiding {
+  opacity: 0 !important;
+  transform: scale(0.94) !important;
+}
+
+/* ── SHARE BAR BUTTON HOVER ────────────────────────────── */
+.share-btn {
+  transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1), filter 0.2s ease !important;
+}
+.share-btn:hover { transform: translateY(-2px) !important; }
+
+/* ── NEWSLETTER INPUT FOCUS ────────────────────────────── */
+#footerNlForm input:focus {
+  transform: scaleY(1.03);
+  transition: all 0.25s ease;
+}
+
+/* ── SECTION HEADER UNDERLINE GROW ────────────────────── */
+.section-header .section-title {
+  position: relative;
+  overflow: hidden;
+}
+@keyframes titleIn {
+  from { opacity: 0; transform: translateX(-12px); }
+  to   { opacity: 1; transform: none; }
+}
+.anim-el.in-view .section-title { animation: titleIn 0.5s cubic-bezier(0.22,1,0.36,1) both; }
+
+/* ── SPINNER (for loading states) ──────────────────────── */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+.spin { animation: spin 0.8s linear infinite; }
+
+/* ── PULSE (for live/breaking indicators) ─────────────── */
+@keyframes pulse-dot {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50%       { transform: scale(1.5); opacity: 0.5; }
+}
+.pulse-dot {
+  display: inline-block;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--red);
+  animation: pulse-dot 1.4s ease-in-out infinite;
+  margin-right: 5px;
+  vertical-align: middle;
+}
+
+/* ── FOOTER SECTION ENTRANCE ───────────────────────────── */
+.site-footer {
+  position: relative;
+  overflow: hidden;
+}

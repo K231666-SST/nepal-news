@@ -4,15 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const btn = document.getElementById('scrollTop');
     if (btn) window.addEventListener('scroll', () => btn.classList.toggle('show', window.scrollY > 400));
 
-    // Category tab filter
-    const tabs  = document.querySelectorAll('.cat-tab');
-    const cards = document.querySelectorAll('#latestGrid .news-card');
-    tabs.forEach(tab => tab.addEventListener('click', function() {
-        tabs.forEach(t => t.classList.remove('active'));
-        this.classList.add('active');
-        const cat = this.dataset.cat;
-        cards.forEach(c => c.style.display = (cat === 'all' || c.dataset.cat === cat) ? 'flex' : 'none');
-    }));
+    // Category tab filter is handled by animations.js (smooth animated version)
 
     // Load widgets
     loadWeather();
@@ -191,14 +183,3 @@ function setEl(id, html) {
     const el = document.getElementById(id);
     if (el) el.innerHTML = html;
 }
-const hamburger = document.querySelector('.hamburger');
-const mobileMenu = document.querySelector('.mobile-menu');
-const closeBtn = document.querySelector('.close-btn');
-
-hamburger.addEventListener('click', () => {
-    mobileMenu.classList.add('active');
-});
-
-closeBtn.addEventListener('click', () => {
-    mobileMenu.classList.remove('active');
-});
