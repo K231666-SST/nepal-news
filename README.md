@@ -22,7 +22,7 @@ A full-stack news web application built for the Nepali-Australian diaspora commu
 - **APIs:** OpenWeatherMap, ExchangeRate, Horoscope API
 
 ## Features
-- 📰 News articles across 8 categories
+- 📰 News articles across many categories
 - 🌤️ Live weather, 💱 Currency converter, ⭐ Rashifal
 - 👥 Role-based auth (Admin, Editor, Contributor, Reader)
 - 📢 Advertisement management system
