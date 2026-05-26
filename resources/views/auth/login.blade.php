@@ -23,7 +23,7 @@
     No account? <a href="{{ route('register') }}" style="color:#C0392B;font-weight:600">Register free</a>
 </p>
 <div style="margin-top:20px;padding:14px;background:#fffbf0;border:1px dashed #f0d9b5;border-radius:4px;font-size:12px;color:#666">
-    <strong style="color:#856404;display:block;margin-bottom:6px">Demo credentials (password: password)</strong>
+    <strong style="color:#856404;display:block;margin-bottom:6px">Demo credentials (password: admin123)</strong>
     admin@nepalnews.com.au &nbsp;|&nbsp; editor@nepalnews.com.au &nbsp;|&nbsp; contributor@nepalnews.com.au
 </div>
 </x-guest-layout>
