@@ -42,6 +42,12 @@ class GuruController extends Controller
             ]);
         }
 
+        // Log the actual Groq error so it shows in Render's log stream
+        \Log::error('Groq API error', [
+            'status' => $response->status(),
+            'body'   => $response->body(),
+        ]);
+
         return response()->json([
             'reply' => 'Guru is taking a short break. Please try again! 🙏'
         ], 200);
