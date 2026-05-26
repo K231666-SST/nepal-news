@@ -7,7 +7,8 @@ class Advertisement extends Model
 {
     protected $fillable = [
         'title','position','type','image_url','link_url',
-        'ad_code','alt_text','is_active','starts_at','ends_at','created_by',
+        'ad_code','alt_text','is_active','starts_at','ends_at',
+        'impressions','clicks','created_by',
     ];
     protected $casts = [
         'is_active'  => 'boolean',
