@@ -410,7 +410,6 @@ body {
   transition: opacity 0.28s ease !important;
 }
 .mobile-overlay.open {
-  display: block !important;
   opacity: 1 !important;
 }
 

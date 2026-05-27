@@ -72,15 +72,27 @@
                     <p>Your Bridge Between Nepal &amp; Australia</p>
                 </div>
             </a>
-            <div style="display:flex;align-items:center;gap:12px">
+            <div class="header-right">
                 <form action="{{ route('search') }}" method="GET" class="header-search">
                     <input type="text" name="search" placeholder="Search news, articles..." value="{{ request('search') }}">
                     <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
                 </form>
+                <button class="mobile-search-btn" id="mobileSearchBtn" onclick="toggleMobileSearch()" aria-label="Search" title="Search">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
                 <button class="hamburger" id="hamburgerBtn" onclick="toggleMobileMenu()" aria-label="Toggle menu">
                     <span></span><span></span><span></span>
                 </button>
             </div>
+        </div>
+    </div>
+    {{-- MOBILE SEARCH BAR — inside header so it stays sticky --}}
+    <div class="mobile-search-bar" id="mobileSearchBar">
+        <div class="container">
+            <form action="{{ route('search') }}" method="GET">
+                <input type="text" name="search" placeholder="Search news, articles..." value="{{ request('search') }}" autocomplete="off">
+                <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+            </form>
         </div>
     </div>
 </header>
@@ -120,27 +132,27 @@
 
     <div class="mobile-menu-section">
         <div class="mobile-menu-label"><i class="fa-solid fa-newspaper"></i> News Sections</div>
-        <a href="{{ route('home') }}" class="mobile-menu-item {{ request()->routeIs('home')?'active':'' }}"><i class="fa-solid fa-house"></i> Home</a>
+        <a href="{{ route('home') }}" onclick="toggleMobileMenu()" class="mobile-menu-item {{ request()->routeIs('home')?'active':'' }}"><i class="fa-solid fa-house"></i> Home</a>
         @foreach(['nepal'=>'fa-mountain-sun','australia'=>'fa-globe','community'=>'fa-users','business'=>'fa-briefcase','sports'=>'fa-trophy','entertainment'=>'fa-film','opinion'=>'fa-comment','culture'=>'fa-masks-theater'] as $mc => $icon)
-        <a href="{{ route('category',$mc) }}" class="mobile-menu-item {{ request()->route('cat')===$mc?'active':'' }}"><i class="fa-solid {{ $icon }}"></i> {{ ucfirst($mc) }}</a>
+        <a href="{{ route('category',$mc) }}" onclick="toggleMobileMenu()" class="mobile-menu-item {{ request()->route('cat')===$mc?'active':'' }}"><i class="fa-solid {{ $icon }}"></i> {{ ucfirst($mc) }}</a>
         @endforeach
     </div>
 
     <div class="mobile-menu-section">
         <div class="mobile-menu-label"><i class="fa-solid fa-link"></i> Quick Links</div>
-        <a href="{{ route('events.index') }}" class="mobile-menu-item"><i class="fa-regular fa-calendar"></i> Community Events</a>
+        <a href="{{ route('events.index') }}" onclick="toggleMobileMenu()" class="mobile-menu-item"><i class="fa-regular fa-calendar"></i> Community Events</a>
         <a href="https://www.hamropatro.com/" target="_blank" rel="noopener" class="mobile-menu-item"><i class="fa-regular fa-calendar-days"></i> Hamro Patro</a>
         @auth
-        <a href="{{ route('dashboard') }}" class="mobile-menu-item"><i class="fa-solid fa-bolt"></i> Dashboard</a>
+        <a href="{{ route('dashboard') }}" onclick="toggleMobileMenu()" class="mobile-menu-item"><i class="fa-solid fa-bolt"></i> Dashboard</a>
         @if(auth()->user()->isAdmin())
-        <a href="{{ route('ads.index') }}" class="mobile-menu-item" style="color:#C0392B;font-weight:600"><i class="fa-solid fa-bullhorn"></i> Manage Ads</a>
+        <a href="{{ route('ads.index') }}" onclick="toggleMobileMenu()" class="mobile-menu-item" style="color:#C0392B;font-weight:600"><i class="fa-solid fa-bullhorn"></i> Manage Ads</a>
         @endif
         @if(auth()->user()->isContributor())
-        <a href="{{ route('articles.create') }}" class="mobile-menu-item" style="color:#C0392B;font-weight:600"><i class="fa-solid fa-pen"></i> Write Article</a>
+        <a href="{{ route('articles.create') }}" onclick="toggleMobileMenu()" class="mobile-menu-item" style="color:#C0392B;font-weight:600"><i class="fa-solid fa-pen"></i> Write Article</a>
         @endif
         @else
-        <a href="{{ route('login') }}" class="mobile-menu-item"><i class="fa-solid fa-key"></i> Sign In</a>
-        <a href="{{ route('register') }}" class="mobile-menu-item"><i class="fa-solid fa-pen-to-square"></i> Register</a>
+        <a href="{{ route('login') }}" onclick="toggleMobileMenu()" class="mobile-menu-item"><i class="fa-solid fa-key"></i> Sign In</a>
+        <a href="{{ route('register') }}" onclick="toggleMobileMenu()" class="mobile-menu-item"><i class="fa-solid fa-pen-to-square"></i> Register</a>
         @endauth
     </div>
 
@@ -270,6 +282,26 @@ function toggleMobileMenu() {
     overlay.classList.toggle('open',!isOpen);
     btn.classList.toggle('open',!isOpen);
     document.body.style.overflow = isOpen ? '' : 'hidden';
+    // Always collapse the mobile search bar when the menu toggles
+    const sb = document.getElementById('mobileSearchBar');
+    const sbBtn = document.getElementById('mobileSearchBtn');
+    if (sb) { sb.classList.remove('open'); }
+    if (sbBtn) { sbBtn.classList.remove('active'); }
+}
+function toggleMobileSearch() {
+    const bar = document.getElementById('mobileSearchBar');
+    const btn = document.getElementById('mobileSearchBtn');
+    if (!bar) return;
+    const isOpen = bar.classList.contains('open');
+    bar.classList.toggle('open', !isOpen);
+    btn && btn.classList.toggle('active', !isOpen);
+    if (!isOpen) {
+        // Focus the search input when opening
+        setTimeout(() => {
+            const input = bar.querySelector('input');
+            if (input) input.focus();
+        }, 320);
+    }
 }
 function submitFooterNewsletter(e) {
     e.preventDefault();

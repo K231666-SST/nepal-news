@@ -133,7 +133,84 @@ button { font-family: var(--font-sans); cursor: pointer; }
   padding: 9px 16px; font-size: 13px; transition: var(--trans);
 }
 .header-search button:hover { background: var(--red-dark); }
-@media(max-width:600px){ .header-inner{flex-direction:column;align-items:flex-start} .header-search input{width:180px} }
+/* header-right wraps search + mobile-search-btn + hamburger */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+/* Mobile search toggle button — hidden on desktop */
+.mobile-search-btn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 38px; height: 38px;
+  background: #f5f5f5;
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-sm);
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--text);
+  flex-shrink: 0;
+  transition: var(--trans);
+}
+.mobile-search-btn:hover,
+.mobile-search-btn.active {
+  background: var(--red);
+  color: white;
+  border-color: var(--red);
+}
+/* Collapsible mobile search bar (below header) */
+.mobile-search-bar {
+  background: #fff;
+  border-bottom: 2px solid var(--red);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s cubic-bezier(0.22,1,0.36,1),
+              padding 0.3s ease;
+  padding: 0;
+}
+.mobile-search-bar.open {
+  max-height: 72px;
+  padding: 10px 0;
+}
+.mobile-search-bar form {
+  display: flex;
+  align-items: center;
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-sm);
+  overflow: hidden;
+  background: #f5f5f5;
+  transition: var(--trans);
+}
+.mobile-search-bar form:focus-within {
+  border-color: var(--red);
+  background: white;
+  box-shadow: 0 0 0 3px rgba(192,57,43,0.08);
+}
+.mobile-search-bar input {
+  flex: 1;
+  padding: 10px 14px;
+  font-size: 14px;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: var(--font-sans);
+  color: var(--text);
+}
+.mobile-search-bar button {
+  background: var(--red);
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: var(--trans);
+  flex-shrink: 0;
+}
+.mobile-search-bar button:hover { background: var(--red-dark); }
 
 /* ── NAV ────────────────────────────────────────────────── */
 .site-nav {
@@ -724,24 +801,35 @@ textarea.form-input { resize: vertical; }
 .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
 .mobile-overlay {
-  display: none;
   position: fixed; inset: 0;
-  background: rgba(0,0,0,0.45);
+  background: rgba(0,0,0,0.5);
   z-index: 400;
+  opacity: 0;
+  pointer-events: none;
+  /* transition handled in animations.css */
 }
-.mobile-overlay.open { display: block; }
+.mobile-overlay.open {
+  opacity: 1;
+  pointer-events: all;
+}
 
 .mobile-menu {
   position: fixed;
-  top: 0; right: -320px;
-  width: 300px; height: 100vh;
+  top: 0; right: 0;
+  width: min(300px, 88vw);
+  height: 100vh;
+  height: 100dvh; /* modern mobile: excludes browser chrome */
   background: white;
   z-index: 500;
-  transition: right 0.28s ease;
+  transform: translateX(105%);  /* GPU-accelerated slide */
+  transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
   overflow-y: auto;
-  box-shadow: -4px 0 24px rgba(0,0,0,0.12);
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  box-shadow: -4px 0 32px rgba(0,0,0,0.15);
+  will-change: transform;
 }
-.mobile-menu.open { right: 0; }
+.mobile-menu.open { transform: translateX(0); }
 .mobile-menu-header {
   display: flex; align-items: center; gap: 10px;
   padding: 14px 16px; border-bottom: 1px solid var(--border);
@@ -881,4 +969,104 @@ textarea.form-input { resize: vertical; }
 
 /* ── FA ICON SIZING IN CONTEXT ── */
 .widget-head i, .nav-inner a i, .mobile-menu-item i { font-size: 12px; }
+
+/* ══════════════════════════════════════════════════════════
+   MOBILE RESPONSIVE — Top Bar, Header, Mobile Menu
+   Breakpoints: 900px (tablet), 640px (mobile), 400px (small)
+══════════════════════════════════════════════════════════ */
+
+/* ── TOP BAR ──────────────────────────────────────────── */
+/* Tablet: hide date, keep lang + socials + auth */
+@media (max-width: 900px) {
+  .top-left { display: none; }
+  .top-bar-inner { justify-content: flex-end; }
+  .top-right { gap: 10px; }
+}
+/* Small mobile: hide social icons too */
+@media (max-width: 480px) {
+  .top-socials { display: none; }
+  .top-right { gap: 8px; }
+  .lang-btn { padding: 3px 8px; font-size: 10px; }
+  .top-login, .top-logout { font-size: 11px; }
+}
+/* Extra small: minimal top bar */
+@media (max-width: 360px) {
+  .top-bar { padding: 5px 0; }
+  .lang-btns { gap: 2px; }
+}
+
+/* ── HEADER ───────────────────────────────────────────── */
+/* Override the old column-direction rule — header stays ONE ROW always */
+@media (max-width: 900px) {
+  .header-inner {
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 12px !important;
+  }
+  /* Show hamburger */
+  .hamburger { display: flex !important; }
+  /* Hide desktop search input */
+  .header-search { display: none !important; }
+  /* Show mobile search icon button */
+  .mobile-search-btn { display: flex !important; }
+}
+/* Tablet: slightly smaller logo */
+@media (max-width: 768px) {
+  .site-logo img {
+    height: 46px !important;
+    width:  46px !important;
+  }
+  .logo-text h1 { font-size: 19px; }
+  .logo-text p  { font-size: 10px; color: var(--muted); }
+}
+/* Mobile: compact logo, hide tagline */
+@media (max-width: 480px) {
+  .site-logo img {
+    height: 38px !important;
+    width:  38px !important;
+  }
+  .logo-text h1 { font-size: 16px; }
+  .logo-text p  { display: none; }
+  .site-header  { padding: 10px 0; }
+  .header-right { gap: 7px; }
+  .hamburger { width: 34px; height: 34px; }
+  .mobile-search-btn { width: 34px; height: 34px; font-size: 13px; }
+}
+/* Very small phones */
+@media (max-width: 360px) {
+  .logo-text h1 { font-size: 14px; }
+  .site-logo    { gap: 8px; }
+  .site-logo img {
+    height: 34px !important;
+    width:  34px !important;
+  }
+}
+
+/* ── MOBILE SEARCH BAR ────────────────────────────────── */
+/* Only show on mobile, hidden on desktop */
+@media (min-width: 901px) {
+  .mobile-search-bar { display: none !important; }
+}
+
+/* ── MOBILE MENU ITEMS ────────────────────────────────── */
+/* Slightly larger tap targets on small screens */
+@media (max-width: 480px) {
+  .mobile-menu-item {
+    padding: 12px 16px;
+    font-size: 14px;
+  }
+  .mobile-menu { width: min(290px, 92vw); }
+}
+@media (max-width: 360px) {
+  .mobile-menu { width: 100vw; }
+  .mobile-menu.open { border-radius: 0; }
+}
+
+/* ── MOBILE MENU HEADER ───────────────────────────────── */
+@media (max-width: 480px) {
+  .mobile-menu-header { padding: 12px 14px; }
+  .mobile-menu-header span { font-size: 14px !important; }
+}
 .art-info i, .event-loc i, .event-meta i { font-size: 11px; }
